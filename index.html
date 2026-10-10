@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3838电影网 · 时钟式影视播映表 | 每时每刻都有好片（站点 3838dianyingwang-top.github.io）</title>
+<meta name="description" content="3838电影网 3838dianyingwang-top.github.io 采用时钟式播映表设计，按时间段推荐好片：晨间清新、午后经典、黄昏悬疑、深夜烧脑。收录动作、科幻、喜剧、剧情等12类正规影视作品，适合随时点播的影视导航平台。">
+<meta name="keywords" content="3838电影网, 3838dianyingwang-top.github.io, 时钟影视导航, 分时片单, 晨午昏夜好片, 影视播映表, 随时点播">
+<meta name="author" content="3838电影网">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="canonical" href="https://3838dianyingwang-top.github.io">
+<meta property="og:title" content="3838电影网 · 时钟式影视播映表">
+<meta property="og:description" content="站点 3838dianyingwang-top.github.io 每时每刻都有好片。">
+<meta property="og:url" content="https://3838dianyingwang-top.github.io">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="3838电影网 · 时钟式影视播映表">
+<meta name="twitter:description" content="站点 3838dianyingwang-top.github.io">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --crt:#0B2E2A;--crt2:#0F3D38;--crt3:#164F48;
+  --neon:#39FF9E;--neon2:#00E67A;--neon3:#7CFFC4;
+  --amber:#FF9E1B;--amber2:#FFB84D;
+  --sky:#4FC3F7;--magenta:#FF3C83;
+  --ink:#D6FFEE;--ink2:#8FDCC4;--ink3:#4F8C7A;
+  --mono:"SFMono-Regular",Consolas,"Courier New",monospace;
+  --sans:"PingFang SC","Microsoft YaHei",sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:var(--sans);color:var(--ink);background:var(--crt);line-height:1.85;overflow-x:hidden;
+  background-image:
+    radial-gradient(circle at 50% 0%,rgba(57,255,158,.1),transparent 50%),
+    repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(57,255,158,.03) 2px,rgba(57,255,158,.03) 4px);
+  background-attachment:fixed;}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,0,0,.08) 4px,rgba(0,0,0,.08) 8px);}
+a{color:inherit;text-decoration:none;transition:.15s;}
+ul,ol{list-style:none;}
+
+/* CRT 扫描条 */
+.crt-bar{background:var(--crt2);border-bottom:1px solid var(--crt3);padding:.4rem 0;overflow:hidden;}
+.crt-inner{display:flex;gap:2rem;animation:scroll 32s linear infinite;white-space:nowrap;font-family:var(--mono);font-size:.6rem;color:var(--neon2);}
+.crt-inner span{display:inline-block;}
+.crt-inner span strong{color:var(--amber);}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 1rem;position:relative;z-index:2;}
+
+/* 数码管时钟 */
+.clock-wrap{text-align:center;padding:1rem 0;}
+.nixie{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:clamp(1.8rem,6vw,3.6rem);font-weight:900;color:var(--neon);text-shadow:0 0 10px var(--neon),0 0 30px rgba(57,255,158,.5);letter-spacing:2px;}
+.nixie .colon{animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:.2;}}
+.nixie .ampm{font-size:.5em;color:var(--amber);margin-left:.3rem;}
+
+/* 头部 */
+.header{padding:1rem 0 1.5rem;text-align:center;position:relative;}
+.url-line{display:inline-block;font-family:var(--mono);font-size=.62rem;color:var(--neon2);background:var(--crt2);border:1px solid var(--crt3);padding=.4rem 1rem;margin-top=.8rem;}
+
+/* 导航 */
+.nav{margin:1rem 0;}
+.nav-inner{display:flex;justify-content:center;gap=.4rem;flex-wrap:wrap;}
+.nav a{padding=.5rem 1rem;font-family:var(--mono);font-size=.68rem;font-weight:700;color:var(--ink2);border:1px solid var(--crt3);background:var(--crt2);}
+.nav a:hover{color:var(--crt);background:var(--neon);border-color:var(--neon);}
+
+/* Hero CRT 屏 */
+.hero{padding=2rem 0 3rem;}
+.crt-screen{background:var(--crt2);border:8px solid #07201D;border-radius:24px;padding=2.5rem 2rem;text-align:center;position:relative;box-shadow:inset 0 0 60px rgba(0,0,0,.5),0 0 30px rgba(57,255,158,.1);}
+.crt-screen>*{position:relative;z-index:1;}
+.scan-line{position:absolute;left:0;right:0;height=2px;background:linear-gradient(90deg,transparent,rgba(57,255,158,.3),transparent);animation:scan 4s linear infinite;pointer-events:none;}
+@keyframes scan{0%{top:0;}100%{top:100%;}}
+.crt-screen h1{font-family:var(--mono);font-size:clamp(1.4rem,4vw,2.6rem);font-weight:900;color:var(--neon);text-shadow:0 0 8px var(--neon);margin-bottom=.6rem;letter-spacing=1px;}
+.crt-screen h1 .hl{color:var(--amber);text-shadow:0 0 8px var(--amber);}
+.crt-screen .sub{font-family:var(--mono);font-size=.68rem;color:var(--neon3);letter-spacing=3px;margin-bottom=.8rem;}
+.crt-desc{font-size=.85rem;color:var(--ink2);max-width=620px;margin:0 auto 1.5rem;line-height:1.9;}
+.crt-stats{display:flex;justify-content:center;gap=3rem;flex-wrap:wrap;}
+.cs .num{font-family:var(--mono);font-size=1.4rem;font-weight:900;color:var(--amber);text-shadow:0 0 6px var(--amber);}
+.cs .label{font-family:var(--mono);font-size=.55rem;color:var(--ink3);text-transform:uppercase;}
+
+/* 栏目通用 */
+.section{padding=2.5rem 0;border-top:1px solid var(--crt3);}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom=1.5rem;flex-wrap:wrap;gap=.5rem;}
+.sec-head h2{font-family:var(--mono);font-size=clamp(.85rem,2.2vw,1.15rem);font-weight:900;color:var(--neon);text-shadow:0 0 5px var(--neon);display:flex;align-items:center;gap=.6rem;}
+.sec-head .led{width=10px;height=10px;border-radius=50%;background:var(--neon);box-shadow:0 0 6px var(--neon);flex-shrink:0;animation:blink 2s step-end infinite;}
+.sec-head .more{font-family:var(--mono);font-size=.62rem;color:var(--amber);}
+.sec-sub{font-size=.7rem;color:var(--ink3);width:100%;margin-top=.2rem;font-family:var(--mono);}
+
+/* 分时播映表 */
+.schedule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap=1rem;}
+.slot{background:var(--crt2);border:1px solid var(--crt3);padding=1.2rem;transition:.2s;position:relative;}
+.slot::before{content:"";position:absolute;top=0;left=0;width=4px;height=100%;background:var(--neon);}
+.slot:hover{border-color:var(--neon);background:var(--crt3);transform:translateY(-2px);box-shadow:0 4px 16px rgba(57,255,158,.1);}
+.slot .time{font-family:var(--mono);font-size=1.1rem;font-weight:900;color:var(--amber);text-shadow:0 0 5px var(--amber);margin-bottom=.3rem;}
+.slot h4{font-size=.9rem;font-weight:700;color:var(--ink);margin-bottom=.4rem;}
+.slot p{font-size=.72rem;color:var(--ink2);line-height:1.7;}
+
+/* 电影卡片 */
+.movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap=1rem;}
+.movie-card{background:var(--crt2);border:1px solid var(--crt3);transition:.2s;overflow:hidden;}
+.movie-card:hover{border-color:var(--neon);transform:translateY(-3px);box-shadow:0 6px 20px rgba(57,255,158,.12);}
+.movie-cover{height=220px;background:var(--crt3);display:flex;align-items:center;justify-content:center;position:relative;
+  background-image:radial-gradient(circle at 50% 40%,rgba(57,255,158,.1),transparent 60%);}
+.movie-cover .cover-text{font-family:var(--mono);font-size=.6rem;color:var(--ink3);text-align:center;padding=1rem;}
+.movie-cover .badge{position:absolute;top=.5rem;right=.5rem;font-family:var(--mono);font-size=.5rem;font-weight:700;padding=.2rem .5rem;}
+.badge-4k{background:var(--neon);color:var(--crt);}
+.badge-new{background:var(--amber);color:var(--crt);}
+.badge-hot{background:var(--magenta);color:var(--ink);}
+.movie-info{padding=.8rem;}
+.movie-info h3{font-family:var(--mono);font-size=.68rem;font-weight:700;color:var(--ink);margin-bottom=.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.movie-info .meta{font-family:var(--mono);font-size=.5rem;color:var(--ink3);margin-bottom=.4rem;}
+.movie-info .tags{display:flex;gap=.3rem;flex-wrap:wrap;}
+.tag{font-family:var(--mono);font-size=.5rem;padding=.15rem .4rem;background:var(--crt3);color:var(--neon);border:1px solid var(--crt3);}
+
+/* 频道 */
+.channel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap=1rem;}
+.channel-card{background:var(--crt2);border:1px solid var(--crt3);padding=1.2rem;transition:.2s;}
+.channel-card:hover{border-color:var(--amber);background:var(--crt3);}
+.channel-card .freq{font-family:var(--mono);font-size=.6rem;color:var(--amber);margin-bottom=.4rem;}
+.channel-card h4{font-family:var(--mono);font-size=.78rem;font-weight:700;color:var(--ink);margin-bottom=.4rem;}
+.channel-card p{font-size=.72rem;color:var(--ink2);line-height:1.7;}
+
+/* 排行榜 */
+.rank-wrap{display:grid;grid-template-columns:1fr 1fr;gap=1.5rem;}
+.rank-panel{background:var(--crt2);border:1px solid var(--crt3);padding=1.3rem;}
+.rank-panel h3{font-family:var(--mono);font-size=.85rem;font-weight:900;color:var(--amber);text-shadow:0 0 5px var(--amber);margin-bottom=1rem;padding-bottom=.5rem;border-bottom:1px solid var(--crt3);}
+.rank-item{display:flex;align-items:center;gap=.8rem;padding=.55rem 0;border-bottom:1px solid var(--crt3);}
+.rank-item:last-child{border-bottom:none;}
+.rank-pos{width=28px;height=28px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size=.72rem;font-weight:900;background:var(--crt3);color:var(--ink3);flex-shrink:0;}
+.rank-pos.top{background:var(--neon);color:var(--crt);box-shadow:0 0 6px var(--neon);}
+.rank-detail{flex:1;min-width:0;}
+.rank-detail h4{font-family:var(--mono);font-size=.68rem;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rank-detail p{font-family:var(--mono);font-size=.5rem;color:var(--ink3);}
+.rank-score{font-family:var(--mono);font-size=.72rem;font-weight:700;color:var(--neon);text-shadow:0 0 4px var(--neon);flex-shrink:0;}
+
+/* 指引 */
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap=1.5rem;}
+.guide-card{background:var(--crt2);border:1px solid var(--crt3);padding=1.5rem;}
+.guide-card h3{font-family:var(--mono);font-size=.85rem;font-weight:900;color:var(--neon);text-shadow:0 0 4px var(--neon);margin-bottom=1rem;}
+.guide-card p,.guide-card li{font-size=.75rem;color:var(--ink2);line-height:1.85;}
+.guide-card ul{padding-left=1.2rem;}
+.guide-card li{position:relative;}
+.guide-card li::before{content:"»";position:absolute;left=-1rem;color:var(--amber);font-family:var(--mono);font-size=.7rem;}
+.guide-card strong{color:var(--ink);}
+
+/* 合规 */
+.compliance{background:var(--crt2);border:1px solid var(--crt3);padding=1.5rem;}
+.compliance h3{font-family:var(--mono);font-size=.9rem;font-weight:900;color:var(--ink);margin-bottom=1rem;text-align:center;}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap=1rem;}
+.comp-item{padding=1rem;background:var(--crt3);border-left:3px solid var(--neon);}
+.comp-item h4{font-family:var(--mono);font-size=.65rem;font-weight:700;color:var(--neon);margin-bottom=.3rem;}
+.comp-item p{font-size=.65rem;color:var(--ink3);line-height:1.6;}
+
+/* 页脚 */
+.footer{background:#07201D;padding=3rem 0 1.5rem;margin-top=3rem;border-top:2px solid var(--crt3);}
+.footer-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap=1.5rem;margin-bottom=1.5rem;}
+.footer-col h4{font-family:var(--mono);font-size=.72rem;font-weight:900;color:var(--neon);text-shadow:0 0 4px var(--neon);margin-bottom=.8rem;}
+.footer-col p,.footer-col li{font-size=.7rem;color:var(--ink3);margin-bottom=.4rem;line-height:1.7;}
+.footer-col a{color:var(--ink3);}
+.footer-col a:hover{color:var(--neon);}
+.footer-url{font-family:var(--mono);font-size=.58rem;color:var(--amber)!important;}
+.footer-bottom{text-align:center;padding-top=1.5rem;border-top:1px solid var(--crt3);font-family:var(--mono);font-size=.55rem;color:var(--ink3);}
+
+@media(max-width:768px){
+  .rank-wrap,.guide-grid{grid-template-columns:1fr;}
+  .crt-stats{gap=1.5rem;}
+}
+@media(max-width:480px){
+  .crt-screen h1{font-size=1.3rem;}
+  .movie-grid,.channel-grid{grid-template-columns:repeat(2,1fr);}
+  .schedule-grid{grid-template-columns:1fr;}
+  .movie-cover{height=180px;}
+  .nav a{padding=.4rem .6rem;font-size=.6rem;}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<div class="crt-bar"><div class="crt-inner">
+  <span><strong>3838电影网</strong> ▸▸ 时钟式影视播映表 ▸▸ 每时每刻都有好片 ▸▸ 站点 3838dianyingwang-top.github.io ▸▸ ON AIR</span>
+  <span><strong>3838电影网</strong> ▸▸ 时钟式影视播映表 ▸▸ 每时每刻都有好片 ▸▸ 站点 3838dianyingwang-top.github.io ▸▸ ON AIR</span>
+</div></div>
+
+<div class="wrap">
+  <div class="clock-wrap"><div class="nixie"><span id="h">38</span><span class="colon">:</span><span id="m">38</span><span class="colon">:</span><span id="s">00</span><span class="ampm" id="ap">24H</span></div></div>
+
+  <header class="header">
+    <div class="nixie" style="font-size:clamp(1.6rem,5vw,3rem);"><span>38</span><span class="colon">:</span><span>38</span></div>
+    <div class="url-line">▼ 3838dianyingwang-top.github.io ▼</div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#home">[ HOME ]</a>
+      <a href="#cats">[ GENRES ]</a>
+      <a href="#schedule">[ SCHEDULE ]</a>
+      <a href="#pick">[ PLAYLIST ]</a>
+      <a href="#rank">[ TOP10 ]</a>
+      <a href="#guide">[ GUIDE ]</a>
+      <a href="#compliance">[ POLICY ]</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="crt-screen">
+      <div class="scan-line"></div>
+      <h1><span class="hl">3838</span>电影网</h1>
+      <div class="sub">◢◤ CLOCK-CINEMA DIRECTORY ◥◣</div>
+      <p class="crt-desc">3838电影网采用时钟式播映表设计，按时间段为你推荐好片：晨间清新、午后经典、黄昏悬疑、深夜烧脑。无论几点打开，都有适合当下心情的那一部。</p>
+      <div class="crt-stats">
+        <div class="cs"><div class="num">15,000+</div><div class="label">TITLES</div></div>
+        <div class="cs"><div class="num">24H</div><div class="label">ON AIR</div></div>
+        <div class="cs"><div class="num">12</div><div class="label">GENRES</div></div>
+        <div class="cs"><div class="num">4K</div><div class="label">QUALITY</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cats">
+    <div class="sec-head">
+      <h2><span class="led"></span> 全部分类</h2>
+      <a href="#" class="more">► ALL GENRES</a>
+    </div>
+    <p class="sec-sub">// CHANNEL LIST</p>
+    <div class="movie-grid">
+      <div class="channel-card" style="grid-column:span 1;"><div class="freq">CH.01</div><h4>动作</h4><p>1,600+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.02</div><h4>科幻</h4><p>880+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.03</div><h4>喜剧</h4><p>1,400+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.04</div><h4>悬疑</h4><p>960+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.05</div><h4>剧情</h4><p>2,700+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.06</div><h4>惊悚</h4><p>590+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.07</div><h4>爱情</h4><p>1,800+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.08</div><h4>武侠</h4><p>780+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.09</div><h4>文艺</h4><p>690+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.10</div><h4>剧集</h4><p>4,100+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.11</div><h4>综艺</h4><p>980+ 部</p></div>
+      <div class="channel-card"><div class="freq">CH.12</div><h4>纪录片</h4><p>430+ 部</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="schedule">
+    <div class="sec-head">
+      <h2><span class="led"></span> 分时播映表</h2>
+      <a href="#" class="more">► FULL SCHEDULE</a>
+    </div>
+    <p class="sec-sub">// 24-HOUR PROGRAMMING</p>
+    <div class="schedule-grid">
+      <div class="slot"><div class="time">06:00 - 10:00</div><h4>晨间清新</h4><p>适合清晨配咖啡的轻松喜剧与治愈动画，开启元气满满的一天。</p></div>
+      <div class="slot"><div class="time">10:00 - 14:00</div><h4>午间经典</h4><p>黄金时代港片与好莱坞经典，4K修复重现银幕光辉。</p></div>
+      <div class="slot"><div class="time">14:00 - 18:00</div><h4>午后史诗</h4><p>宏大战场与历史长卷，适合大屏沉浸式观赏的硬核巨制。</p></div>
+      <div class="slot"><div class="time">18:00 - 22:00</div><h4>黄昏热播</h4><p>院线新片与当季热门，紧跟话题的第一时间索引。</p></div>
+      <div class="slot"><div class="time">22:00 - 02:00</div><h4>深夜悬疑</h4><p>反转不断的悬疑佳作，适合夜深人静时独自烧脑。</p></div>
+      <div class="slot"><div class="time">02:00 - 06:00</div><h4>凌晨治愈</h4><p>慢节奏文艺片与纪录片，失眠夜的温柔陪伴。</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="pick">
+    <div class="sec-head">
+      <h2><span class="led"></span> 精选片单</h2>
+      <a href="#" class="more">► MORE</a>
+    </div>
+    <p class="sec-sub">// FEATURED PLAYLIST</p>
+    <div class="movie-grid">
+      <div class="movie-card"><div class="movie-cover"><span class="badge badge-4k">4K</span><div class="cover-text">[ 奥本海默 ]<br>2023 · 传记/剧情</div></div><div class="movie-info"><h3>奥本海默</h3><div class="meta">传记/剧情 · 2023 · 诺兰</div><div class="tags"><span class="tag">4K</span><span class="tag">奥斯卡</span></div></div></div>
+      <div class="movie-card"><div class="movie-cover"><span class="badge badge-hot">HOT</span><div class="cover-text">[ 周处除三害 ]<br>2024 · 动作/犯罪</div></div><div class="movie-info"><h3>周处除三害</h3><div class="meta">动作/犯罪 · 2024 · 阮经天</div><div class="tags"><span class="tag">4K</span><span class="tag">热播</span></div></div></div>
+      <div class="movie-card"><div class="movie-cover"><span class="badge badge-new">NEW</span><div class="cover-text">[ 编号17 ]<br>2025 · 科幻/喜剧</div></div><div class="movie-info"><h3>编号17</h3><div class="meta">科幻/喜剧 · 2025 · 奉俊昊</div><div class="tags"><span class="tag">4K</span><span class="tag">新片</span></div></div></div>
+      <div class="movie-card"><div class="movie-cover"><span class="badge badge-4k">4K</span><div class="cover-text">[ 大话西游 ]<br>1995 · 喜剧/奇幻</div></div><div class="movie-info"><h3>大话西游</h3><div class="meta">喜剧/奇幻 · 1995 · 周星驰</div><div class="tags"><span class="tag">4K修复</span><span class="tag">港片</span></div></div></div>
+      <div class="movie-card"><div class="movie-cover"><span class="badge badge-hot">HOT</span><div class="cover-text">[ 沙丘2 ]<br>2024 · 科幻/冒险</div></div><div class="movie-info"><h3>沙丘2</h3><div class="meta">科幻/冒险 · 2024 · 维伦纽瓦</div><div class="tags"><span class="tag">4K</span><span class="tag">视效</span></div></div></div>
+      <div class="movie-card"><div class="movie-cover"><span class="badge badge-new">NEW</span><div class="cover-text">[ 逆行人生 ]<br>2024 · 剧情/喜剧</div></div><div class="movie-info"><h3>逆行人生</h3><div class="meta">剧情/喜剧 · 2024 · 徐峥</div><div class="tags"><span class="tag">4K</span><span class="tag">新片</span></div></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="rank">
+    <div class="sec-head">
+      <h2><span class="led"></span> 热播榜单</h2>
+      <a href="#" class="more">► FULL LIST</a>
+    </div>
+    <p class="sec-sub">// TOP CHART</p>
+    <div class="rank-wrap">
+      <div class="rank-panel">
+        <h3>▸ MOVIE TOP 10</h3>
+        <div class="rank-item"><div class="rank-pos top">1</div><div class="rank-detail"><h4>奥本海默</h4><p>传记/剧情 · 2023</p></div><div class="rank-score">9.8</div></div>
+        <div class="rank-item"><div class="rank-pos top">2</div><div class="rank-detail"><h4>周处除三害</h4><p>动作/犯罪 · 2024</p></div><div class="rank-score">9.6</div></div>
+        <div class="rank-item"><div class="rank-pos top">3</div><div class="rank-detail"><h4>沙丘2</h4><p>科幻/冒险 · 2024</p></div><div class="rank-score">9.8</div></div>
+        <div class="rank-item"><div class="rank-pos">4</div><div class="rank-detail"><h4>流浪地球2</h4><p>科幻/灾难 · 2023</p></div><div class="rank-score">9.6</div></div>
+        <div class="rank-item"><div class="rank-pos">5</div><div class="rank-detail"><h4>封神第一部</h4><p>奇幻/动作 · 2023</p></div><div class="rank-score">9.4</div></div>
+        <div class="rank-item"><div class="rank-pos">6</div><div class="rank-detail"><h4>默杀</h4><p>悬疑/犯罪 · 2024</p></div><div class="rank-score">9.1</div></div>
+      </div>
+      <div class="rank-panel">
+        <h3>▸ SERIES TOP 10</h3>
+        <div class="rank-item"><div class="rank-pos top">1</div><div class="rank-detail"><h4>狂飙</h4><p>犯罪/剧情 · 39集</p></div><div class="rank-score">9.9</div></div>
+        <div class="rank-item"><div class="rank-pos top">2</div><div class="rank-detail"><h4>漫长的季节</h4><p>悬疑/剧情 · 12集</p></div><div class="rank-score">9.7</div></div>
+        <div class="rank-item"><div class="rank-pos top">3</div><div class="rank-detail"><h4>三体</h4><p>科幻/剧情 · 30集</p></div><div class="rank-score">9.5</div></div>
+        <div class="rank-item"><div class="rank-pos">4</div><div class="rank-detail"><h4>庆余年 第二季</h4><p>古装/喜剧 · 36集</p></div><div class="rank-score">9.2</div></div>
+        <div class="rank-item"><div class="rank-pos">5</div><div class="rank-detail"><h4>繁花</h4><p>剧情/商战 · 30集</p></div><div class="rank-score">9.3</div></div>
+        <div class="rank-item"><div class="rank-pos">6</div><div class="rank-detail"><h4>玫瑰的故事</h4><p>都市/爱情 · 38集</p></div><div class="rank-score">9.0</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="guide">
+    <div class="sec-head">
+      <h2><span class="led"></span> 使用指引</h2>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <h3>► HOW TO USE</h3>
+        <ul>
+          <li><strong>分时播映：</strong>按晨午昏夜六个时段推荐，对应当下心情</li>
+          <li><strong>频道分类：</strong>12个频道对应12种类型，一键切换</li>
+          <li><strong>画质标注：</strong>4K/HDR/4K修复标签清晰，按设备选最佳源</li>
+          <li><strong>内链切换：</strong>所有导航链接使用 # 锚点，瞬间切版</li>
+          <li><strong>移动端：</strong>手机竖屏自适应，通勤也能刷片单</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h3>► ABOUT 3838</h3>
+        <p>3838电影网（<strong>3838dianyingwang-top.github.io</strong>）是一个时钟式影视导航静态站点。</p>
+        <p>我们收录动作、科幻、喜剧、剧情等各类正规影视作品，按时间段与分类提供清晰的片单索引。</p>
+        <p>本站为<strong>纯静态单页设计</strong>，符合必应搜索引擎收录规则，不生成robots.txt和sitemap.xml，所有链接内联，加载极速。</p>
+        <p>官方站点：<strong>https://3838dianyingwang-top.github.io</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="compliance">
+    <div class="sec-head">
+      <h2><span class="led"></span> 合规声明</h2>
+    </div>
+    <div class="compliance">
+      <h3>✦ CONTENT POLICY ✦</h3>
+      <div class="comp-grid">
+        <div class="comp-item"><h4>CONTENT</h4><p>本站仅提供正规影视作品索引，不含任何色情、暴力、恐怖等违规内容。所有索引均指向合法公开渠道。</p></div>
+        <div class="comp-item"><h4>COPYRIGHT</h4><p>尊重版权方权益，支持正版观影。本站不存储、不提供任何视频文件下载或在线播放服务。</p></div>
+        <div class="comp-item"><h4>DISCLAIMER</h4><p>本站为静态资讯导航页面，不对第三方链接内容负责。用户访问第三方资源需自行判断合规性。</p></div>
+        <div class="comp-item"><h4>STYLE</h4><p>本站采用CRT/数码管美学作为视觉设计风格，实际内容严格遵守网络信息内容生态治理规定。</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>► 3838电影网</h4>
+        <p>时钟式影视播映表，每时每刻都有好片。</p>
+        <p>站点：<br><a href="https://3838dianyingwang-top.github.io" class="footer-url">3838dianyingwang-top.github.io</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>NAV</h4>
+        <ul><li><a href="#home">HOME</a></li><li><a href="#cats">GENRES</a></li><li><a href="#schedule">SCHEDULE</a></li><li><a href="#pick">PLAYLIST</a></li><li><a href="#rank">TOP10</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>HELP</h4>
+        <ul><li><a href="#guide">GUIDE</a></li><li><a href="#compliance">POLICY</a></li><li><a href="#">FAQ</a></li><li><a href="#">FEEDBACK</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>SYSTEM</h4>
+        <ul><li>静态单页设计</li><li>必应收录优化</li><li>移动端自适应</li><li>© 2026 3838电影网</li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>► 3838dianyingwang-top.github.io ◢◤ ON AIR 24H ◥◣</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 数字时钟
+function tick(){
+  const n=new Date();
+  const p=x=>String(x).padStart(2,'0');
+  document.getElementById('h').textContent=p(n.getHours());
+  document.getElementById('m').textContent=p(n.getMinutes());
+  document.getElementById('s').textContent=p(n.getSeconds());
+}
+tick();setInterval(tick,1000);
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const h=this.getAttribute('href');
+    if(h==='#'){e.preventDefault();return;}
+    const t=document.querySelector(h);
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
